@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static './script/htmx.min.js' %}" defer></script>
+    <script src="{% static './script/alpine.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+
+    <title>{{ page_title|default:"MyBookApp" }}</title>
+    
+</head>
+
+<body hx-boost="true" hx-target="#main" hx-select="#main">
+    <nav id="home-nav">
+        <ul id="first-nav">
+             <li> <a href="/">Home</a> </li>
+             <li><a href="{% url 'addbook' %}" >Add Book</a></li>
+        </ul>
+    </nav>
+    <main id="main">
+    {% block content %}
+    {% endblock %}
+    </main>
+    <br><br><br><br><br><br><br><br>
+    <footer>&copy;2025 MY django Book Web</footer>
+    {% block extra_js %} {% endblock %}
+</body>                
+</html>
