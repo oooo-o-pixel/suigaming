@@ -14,3 +14,7 @@ class RegistrationAdmin(admin.ModelAdmin):
     list_display = ('player', 'tournament', 'registered_at')
     search_fields = ('player__username', 'tournament__title')
     list_filter = ('tournament__game_type', 'tournament__status', 'tournament__is_approved')
+
+admin.site.site_header = "SuiGamingNigeria Admin"
+admin.site.site_title = "SuiGamingNigeria Admin Portal"
+admin.site.index_title = "Welcome to SuiGamingNigeria Admin Portal"

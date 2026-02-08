@@ -39,6 +39,7 @@ class Tournament(models.Model):
 
     host = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hosted_tournaments')  # Host of the tournament
     title = models.CharField(max_length=200)  # Title of the tournament
+    subtitle = models.CharField(max_length=200, blank=True)  # Subtitle for the tournament, can be used in the swiper or tournament listing
     description = models.TextField()  # Description of the tournament
     game_type = models.CharField(max_length=10, choices=GAME_TYPES)  # Type of game
     game_category = models.CharField(max_length=20, choices=GAME_CATEGORIES, default='action')  # Category of the game
@@ -47,6 +48,13 @@ class Tournament(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')  # Current status
     created_at = models.DateTimeField(auto_now_add=True)  # Timestamp for tournament creation
     is_approved = models.BooleanField(default=False)  # Approval status by admin
+    image = models.ImageField(upload_to="hero/", default="hero/image_1.jpg") # Image for the tournament, can be used in the swiper or tournament listing
+    is_live = models.BooleanField(default=False) # Flag to indicate if the tournament is currently live, can be used to show live badge or highlight in the UI
+    starting_soon = models.BooleanField(default=False)   # Flag to indicate if the tournament is starting soon, can be used to show starting soon badge or highlight in the UI
+    start_time = models.DateTimeField(default=timezone.now) # This can be used to show countdown timers in the UI for upcoming tournaments
+    button_text = models.CharField(max_length=50, default="View Tournament") # Customizable button text for the tournament card or swiper, can be used to create urgency like "Register Now" for upcoming tournaments or "Join Now" for live tournaments
+    
+    button_link = models.URLField( blank=True, null=True) # Customizable button link for the tournament card or swiper, can be used to direct users to the tournament details page, registration page or live stream link depending on the tournament status
 
     def __str__(self):
         return f"{self.title} ({self.game_type}-{self.game_category})"

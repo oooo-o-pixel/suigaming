@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import EventSlide
+from tournaments.models import Tournament
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Q
@@ -9,7 +9,7 @@ def events_view(request):
     two_days_later = now + timedelta(days=2)
 
     # Filter: live OR starting soon within 2 days
-    slides = EventSlide.objects.filter(
+    slides = Tournament.objects.filter(
         Q(is_live=True) | Q(starting_soon=True, start_time__lte=two_days_later)
     )
 
