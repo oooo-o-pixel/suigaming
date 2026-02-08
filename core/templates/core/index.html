@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="swiper heroSwiper">
+  <div class="swiper-wrapper">
+
+    {% for slide in slides %}
+    <div class="swiper-slide">
+      <img src="{{ slide.image.url }}" class="bg-img">
+
+      <div class="overlay">
+        {% if slide.is_live %}
+          <span class="live hover:text-res-600 text-red-400">🔴 Live Now</span>
+        {% elif slide.starting_soon %}
+          <span class="live hover:text-orange-600 text-orange-400">🟠 Starts in</span>
+          <h3 class="countdown" date-time="{{ slide.start_time|date:'Y-m-d H-i-s' }}">{{ slide.countdown }}</h3>
+        {% endif %}
+
+        <h1>{{ slide.title }}</h1>
+        <p>{{ slide.subtitle }}</p>
+
+        <a href="{{ slide.button_link }}" class="cta">
+          {{ slide.button_text }} →
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-pagination"></div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  // Swiper initialization
+  const heroSwiper = new Swiper('.heroSwiper', {
+    loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+  });
+
+  // Live countdown for coming soon slides
+  function updateCountdowns() {
+    document.querySelectorAll('.countdown').forEach(el => {
+      const endTime = new Date(el.dataset.time).getTime();
+      const now = new Date().getTime();
+      const delta = endTime - now;
+
+      if (delta <= 0) {
+        el.innerText = "Starting soon!";
+        return;
+      }
+
+      const days = Math.floor(delta / (1000*60*60*24));
+      const hours = Math.floor((delta % (1000*60*60*24)) / (1000*60*60));
+      const minutes = Math.floor((delta % (1000*60*60)) / (1000*60));
+      const seconds = Math.floor((delta % (1000*60)) / 1000);
+
+      el.innerText = `${days} day${days!=1?'s':''} ${hours} hr${hours!=1?'s':''} ${minutes} min ${seconds} sec`;
+    });
+  }
+
+  updateCountdowns();
+  setInterval(updateCountdowns, 1000); // update every second
+</script>
+{% endblock %}

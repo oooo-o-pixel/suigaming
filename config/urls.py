@@ -38,6 +38,7 @@ router.register(r'wallets', WalletViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('core.urls')),
     path('api/', include(router.urls)),  # All API endpoints will be prefixed with /api/
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # JWT login
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # JWT refresh

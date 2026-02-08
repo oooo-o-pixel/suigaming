@@ -1,0 +1,31 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The official website for Sui Gaming ng, your go-to source for gaming news and updates.">
+    <meta property="og:title" content="My Website">
+    <meta property="og:description" content="The official Sui Gaming Nigeria Website">
+    <meta property="og:image" content="image.jpg">
+    <script src="{% static './script/htmx.min.js' %}" defer></script>
+    <script src="{% static './script/alpine.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+
+    <title>{{ page_title|default:"MyBookApp" }}</title>
+    
+</head>
+
+<body hx-boost="true" hx-target="#main" hx-select="#main">
+    
+    <main id="main">
+    {% block content %}
+    {% endblock %}
+    </main>
+    <br><br><br><br><br><br><br><br>
+    <footer>&copy;2025 MY django Book Web</footer>
+    {% block extra_js %} {% endblock %}
+</body>                
+</html>
